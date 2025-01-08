@@ -7,13 +7,18 @@ import java.util.List;
 import java.util.Map;
 
 public class SQLWorker implements ISQLWorker {
-    private static Connection conn;
-    private static Statement statmt;
-    private static ResultSet resSet;
+    private Connection conn;
+    private Statement statmt;
+    private ResultSet resSet;
 
-    private static void Conn() throws ClassNotFoundException, SQLException
+    public SQLWorker(Connection conn, Statement statmt, ResultSet resSet){
+        this.conn=conn;
+        this.statmt=statmt;
+        this.resSet=resSet;
+    }
+
+    private void Conn() throws ClassNotFoundException, SQLException
     {
-        conn=null;
         Class.forName("org.postgresql.Driver");
         conn = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/",
@@ -23,7 +28,7 @@ public class SQLWorker implements ISQLWorker {
         System.out.println("Подключение установлено");
     }
 
-    public static void InitDB(String dbName) throws SQLException, ClassNotFoundException {
+    public void InitDB(String dbName) throws SQLException, ClassNotFoundException {
         Conn();
 
         String sql="SELECT datname FROM pg_catalog.pg_database";
