@@ -23,17 +23,6 @@ public class SQLWorker implements ISQLWorker {
         System.out.println("Подключение установлено");
     }
 
-//    public static void Init() throws SQLException, ClassNotFoundException, IOException {
-//        Conn();
-//        String sql=new String(Files.readAllBytes(Paths.get("src/test/resources/SQLiteInitFile.sql")));
-//        statmt=conn.createStatement();
-//        for(String command: sql.split(";")){
-//            if(!command.trim().isEmpty()){
-//                statmt.executeUpdate(command+";");
-//            }
-//        }
-//    }
-
     public static void InitDB(String dbName) throws SQLException, ClassNotFoundException {
         Conn();
 
