@@ -42,12 +42,13 @@ public class SQLWorker implements ISQLWorker {
 
         statmt.execute(sql);
         System.out.println("База данных создана");
-        statmt.close();
-        conn.close();
+
+        CloseDB();
     }
 
-    public static void WriteToDB(String table, List<String> values) throws SQLException
-    {
+    public static void WriteToDB(String table, List<String> values) throws SQLException, ClassNotFoundException {
+        Conn();
+
         statmt=conn.createStatement();
         resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+table+"');");
         List<String> titles=new ArrayList<>();
@@ -85,9 +86,13 @@ public class SQLWorker implements ISQLWorker {
             System.out.println("Запись добавлена");
         else
             System.out.println("Ошибка");
+
+        CloseDB();
     }
 
-    public static void UpdateToDBById(String table,int id, List<String> newValues) throws SQLException {
+    public static void UpdateToDBById(String table,int id, List<String> newValues) throws SQLException, ClassNotFoundException {
+        Conn();
+
         statmt=conn.createStatement();
         resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+table+"');");
         List<String> titles=new ArrayList<>();
@@ -116,10 +121,14 @@ public class SQLWorker implements ISQLWorker {
             System.out.println("Запись обновлена");
         else
             System.out.println("Ошибка");
+
+        CloseDB();
     }
 
     public static void UpdateToDBByOldValues(String table,List<String> oldValues,
-                                             List<String> newValues) throws SQLException {
+                                             List<String> newValues) throws SQLException, ClassNotFoundException {
+        Conn();
+
         statmt=conn.createStatement();
         resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+table+"');");
         List<String> titles=new ArrayList<>();
@@ -153,9 +162,13 @@ public class SQLWorker implements ISQLWorker {
             System.out.println("Запись обновлена");
         else
             System.out.println("Ошибка");
+
+        CloseDB();
     }
 
-    public static List<Map<String, String>> ReadFromDb(String table) throws SQLException {
+    public static List<Map<String, String>> ReadFromDb(String table) throws SQLException, ClassNotFoundException {
+        Conn();
+
         statmt=conn.createStatement();
         resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+table+"');");
         List<String> titles=new ArrayList<>();
@@ -186,14 +199,12 @@ public class SQLWorker implements ISQLWorker {
             models.add(columns);
         }
 
-        resSet.close();
-        statmt.close();
-        conn.close();
+        CloseDB();
 
         return models;
     }
 
-    public static void CloseDB() throws SQLException {
+    private static void CloseDB() throws SQLException {
         resSet.close();
         statmt.close();
         conn.close();
