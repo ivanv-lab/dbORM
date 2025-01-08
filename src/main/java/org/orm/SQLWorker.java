@@ -11,6 +11,7 @@ public class SQLWorker implements ISQLWorker {
     private static Statement statmt;
     private static ResultSet resSet;
 
+    //Подключение к СУБД
     private static void Conn() throws ClassNotFoundException, SQLException
     {
         conn=null;
@@ -23,6 +24,7 @@ public class SQLWorker implements ISQLWorker {
         System.out.println("Подключение установлено");
     }
 
+    //Инициализация БД
     public static void InitDB(String dbName) throws SQLException, ClassNotFoundException {
         Conn();
 
@@ -46,6 +48,7 @@ public class SQLWorker implements ISQLWorker {
         CloseDB();
     }
 
+    //Добавление записи в таблицу
     public static void WriteToDB(String table, List<String> values) throws SQLException, ClassNotFoundException {
         Conn();
 
@@ -90,6 +93,7 @@ public class SQLWorker implements ISQLWorker {
         CloseDB();
     }
 
+    //Изменение записи в таблице по Id
     public static void UpdateToDBById(String table,int id, List<String> newValues) throws SQLException, ClassNotFoundException {
         Conn();
 
@@ -125,6 +129,7 @@ public class SQLWorker implements ISQLWorker {
         CloseDB();
     }
 
+    //Изменение записи в таблице по старым значениям
     public static void UpdateToDBByOldValues(String table,List<String> oldValues,
                                              List<String> newValues) throws SQLException, ClassNotFoundException {
         Conn();
@@ -166,6 +171,7 @@ public class SQLWorker implements ISQLWorker {
         CloseDB();
     }
 
+    //Чтение всех данных из таблицы
     public static List<Map<String, String>> ReadFromDb(String table) throws SQLException, ClassNotFoundException {
         Conn();
 
@@ -204,6 +210,7 @@ public class SQLWorker implements ISQLWorker {
         return models;
     }
 
+    //Закрытие подключения к БД
     private static void CloseDB() throws SQLException {
         resSet.close();
         statmt.close();
