@@ -1,9 +1,12 @@
-package org.orm;
+package orm.test;
+
+import org.orm.EntityWorker;
+import org.orm.SQLWorker;
 
 import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        SQLWorker.InitDB("aboba");
+        Car car=new Car("asdsad",234);
     }
 }
