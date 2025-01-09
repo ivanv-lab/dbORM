@@ -2,8 +2,8 @@ package org.orm;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
+import java.sql.SQLException;
+import java.util.*;
 
 public class EntityWorker{
     Class annotatedClass;
@@ -21,7 +21,25 @@ public class EntityWorker{
         return tableName=annotation.tableName();
     }
 
-    public void createTableByEntityAnnotation(){
+    public void createTableByEntityAnnotation() throws SQLException, ClassNotFoundException {
+        getTableName();
+        List<String> sqlFields=new ArrayList<>();
 
+        List<Field> fields= Arrays.stream(annotatedClass.getDeclaredFields()).toList();
+        for(Field f:fields){
+            String name=f.getName();
+            String type= String.valueOf(f.getType());
+
+            if(type.contains("String")) sqlFields.add(name+" CHARACTER VARYING(255)");
+            if(type.contains("int")) sqlFields.add(name+" INTEGER");
+            if(type.contains("double")) sqlFields.add(name+" REAL");
+            if(type.contains("Long")) sqlFields.add(name+" SERIAL PRIMARY KEY");
+            if(type.contains("boolean")) sqlFields.add(name+" BOOLEAN");
+            if(type.contains("float")) sqlFields.add(name+" DECIMAL");
+        }
+
+        worker.ConnDB();
+        worker.AddTable(tableName,sqlFields);
+        worker.CloseDB();
     }
 }

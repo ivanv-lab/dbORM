@@ -6,6 +6,10 @@ import org.orm.Entity;
 public class Car {
     private String name;
     private int power;
+    private double q;
+    private Long w;
+    private boolean b;
+    private float c;
 
     public Car(String name, int power) {
         this.name = name;

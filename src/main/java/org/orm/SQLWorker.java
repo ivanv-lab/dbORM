@@ -18,11 +18,7 @@ public class SQLWorker implements ISQLWorker {
     }
 
     //Подключение к СУБД
-    /// Сделать так, чтобы сначала было подключение к конкретной БД,
-    /// иначе подключение к СУБД без конкретной БД и использовался бы метод InitDB(),
-    /// т.к. сейчас получается так, что повторное использование метода Conn()
-    /// ведет к подключению к СУБД, а не к БД
-    private void ConnDB() throws ClassNotFoundException, SQLException
+    public void ConnDB() throws ClassNotFoundException, SQLException
     {
         Class.forName("org.postgresql.Driver");
         conn = DriverManager.getConnection(
@@ -50,8 +46,8 @@ public class SQLWorker implements ISQLWorker {
             if(resSet.getString("datname").equals(dbName)){
                 System.out.println("База данных уже существует");
                 statmt.executeUpdate("DROP DATABASE "+dbName+";");
-                System.out.println("База данных перезаписана");
-                return;
+                System.out.println("База данных удалена");
+                break;
             }
         }
 
@@ -64,13 +60,16 @@ public class SQLWorker implements ISQLWorker {
     }
 
     //Создание таблицы
-    public void AddTable(String dbName,String tableName) throws SQLException, ClassNotFoundException {
-        ConnDB();
+    public void AddTable(String tableName, List<String> sqlFields) throws SQLException, ClassNotFoundException {
+        statmt=conn.createStatement();
+        String sql="CREATE TABLE "+tableName+"(";
+        for(int i=0;i<sqlFields.size();i++){
+            sql=sql.concat(sqlFields.get(i)+", ");
+        }
+        sql=sql.substring(0,sql.length()-2);
+        sql=sql.concat(");");
 
-        /// Добавить автоопределение ID как первичного ключа,
-        /// автоопределение типов полей
-
-        CloseDB();
+        statmt.executeUpdate(sql);
     }
 
     //Добавление записи в таблицу
@@ -236,7 +235,7 @@ public class SQLWorker implements ISQLWorker {
     }
 
     //Закрытие подключения к БД
-    private void CloseDB() throws SQLException {
+    public void CloseDB() throws SQLException {
         resSet.close();
         statmt.close();
         conn.close();

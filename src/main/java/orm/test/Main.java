@@ -13,7 +13,15 @@ public class Main {
 //        EntityWorker ew=new EntityWorker(car.getClass());
 //        ew.workWithAnnotation();
 
-        EntityORM orm=new EntityORM(new SQLWorker("dbtest"));
+        SQLWorker sqlWorker=new SQLWorker("dfdf");
+        EntityWorker entityWorker=new EntityWorker(Car.class,
+                sqlWorker);
+        EntityWorker entityWorker1=new EntityWorker(Employee.class,
+                sqlWorker);
 
+        sqlWorker.InitDB();
+
+        entityWorker.createTableByEntityAnnotation();
+        entityWorker1.createTableByEntityAnnotation();
     }
 }

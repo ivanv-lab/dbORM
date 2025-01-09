@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface ISQLWorker {
+    public void ConnDB() throws ClassNotFoundException, SQLException;
 
     public void InitDB() throws ClassNotFoundException, SQLException;
 
-    public void AddTable(String dbName,String tableName) throws SQLException, ClassNotFoundException;
+    public void AddTable(String tableName, List<String> sqlFields) throws SQLException, ClassNotFoundException;
 
     public void WriteToDB(String tableName, List<String> values) throws SQLException, ClassNotFoundException;
 
@@ -18,4 +19,6 @@ public interface ISQLWorker {
                                       List<String> newValues) throws SQLException, ClassNotFoundException;
 
     public List<Map<String, String>> ReadFromDb(String tableName) throws SQLException, ClassNotFoundException;
+
+    public void CloseDB() throws SQLException;
 }
