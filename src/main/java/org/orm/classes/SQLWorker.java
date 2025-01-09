@@ -1,4 +1,6 @@
-package org.orm;
+package org.orm.classes;
+
+import org.orm.interfaces.ISQLWorker;
 
 import java.sql.*;
 import java.util.ArrayList;

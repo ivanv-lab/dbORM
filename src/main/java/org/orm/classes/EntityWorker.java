@@ -1,11 +1,14 @@
-package org.orm;
+package org.orm.classes;
 
-import java.lang.annotation.Annotation;
+import org.orm.annotations.Entity;
+import org.orm.interfaces.IEntityWorker;
+import org.orm.interfaces.ISQLWorker;
+
 import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.util.*;
 
-public class EntityWorker{
+public class EntityWorker implements IEntityWorker {
     Class annotatedClass;
     Entity annotation;
     ISQLWorker worker;

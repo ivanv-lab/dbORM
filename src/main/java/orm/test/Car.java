@@ -1,6 +1,6 @@
 package orm.test;
 
-import org.orm.Entity;
+import org.orm.annotations.Entity;
 
 @Entity(tableName = "Car")
 public class Car {

@@ -1,4 +1,4 @@
-package org.orm;
+package org.orm.interfaces;
 
 import java.sql.SQLException;
 import java.util.List;
