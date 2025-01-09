@@ -1,4 +1,4 @@
 package org.orm.interfaces;
 
-public class IEntityORM {
+public interface IEntityORM {
 }

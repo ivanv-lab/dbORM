@@ -20,5 +20,9 @@ public interface ISQLWorker {
 
     public List<Map<String, String>> ReadFromDb(String tableName) throws SQLException, ClassNotFoundException;
 
+    public Map<String, String> readFromBdById(String tableName,int id) throws SQLException, ClassNotFoundException;
+
+    public void deleteFromDbById(String tableName,int id) throws SQLException, ClassNotFoundException;
+
     public void CloseDB() throws SQLException;
 }

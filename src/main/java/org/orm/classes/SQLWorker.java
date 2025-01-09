@@ -236,6 +236,25 @@ public class SQLWorker implements ISQLWorker {
         return models;
     }
 
+    //Чтение записи по id
+    public Map<String, String> readFromBdById(String tableName,int id) throws SQLException, ClassNotFoundException {
+        ConnDB();
+
+        CloseDB();
+
+        return Map.of();
+    }
+
+    //Удаление записи по id
+    public void deleteFromDbById(String tableName,int id) throws SQLException, ClassNotFoundException {
+        ConnDB();
+
+        statmt=conn.createStatement();
+        statmt.executeQuery("DELETE FROM "+tableName+" WHERE ID="+id+";");
+
+        CloseDB();
+    }
+
     //Закрытие подключения к БД
     public void CloseDB() throws SQLException {
         resSet.close();
