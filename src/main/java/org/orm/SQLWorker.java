@@ -22,7 +22,7 @@ public class SQLWorker implements ISQLWorker {
     /// иначе подключение к СУБД без конкретной БД и использовался бы метод InitDB(),
     /// т.к. сейчас получается так, что повторное использование метода Conn()
     /// ведет к подключению к СУБД, а не к БД
-    private void Conn() throws ClassNotFoundException, SQLException
+    private void ConnDB() throws ClassNotFoundException, SQLException
     {
         Class.forName("org.postgresql.Driver");
         conn = DriverManager.getConnection(
@@ -65,14 +65,17 @@ public class SQLWorker implements ISQLWorker {
 
     //Создание таблицы
     public void AddTable(String dbName,String tableName) throws SQLException, ClassNotFoundException {
-        Conn();
+        ConnDB();
 
+        /// Добавить автоопределение ID как первичного ключа,
+        /// автоопределение типов полей
 
+        CloseDB();
     }
 
     //Добавление записи в таблицу
     public void WriteToDB(String tableName, List<String> values) throws SQLException, ClassNotFoundException {
-        Conn();
+        ConnDB();
 
         statmt=conn.createStatement();
         resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+tableName+"');");
@@ -117,7 +120,7 @@ public class SQLWorker implements ISQLWorker {
 
     //Изменение записи в таблице по Id
     public void UpdateToDBById(String tableName,int id, List<String> newValues) throws SQLException, ClassNotFoundException {
-        Conn();
+        ConnDB();
 
         statmt=conn.createStatement();
         resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+tableName+"');");
@@ -154,7 +157,7 @@ public class SQLWorker implements ISQLWorker {
     //Изменение записи в таблице по старым значениям
     public void UpdateToDBByOldValues(String tableName,List<String> oldValues,
                                              List<String> newValues) throws SQLException, ClassNotFoundException {
-        Conn();
+        ConnDB();
 
         statmt=conn.createStatement();
         resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+tableName+"');");
@@ -195,7 +198,7 @@ public class SQLWorker implements ISQLWorker {
 
     //Чтение всех данных из таблицы
     public List<Map<String, String>> ReadFromDb(String tableName) throws SQLException, ClassNotFoundException {
-        Conn();
+        ConnDB();
 
         statmt=conn.createStatement();
         resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+tableName+"');");

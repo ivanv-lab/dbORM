@@ -9,14 +9,19 @@ public class EntityWorker{
     Class annotatedClass;
     Entity annotation;
     ISQLWorker worker;
+    String tableName;
 
     public EntityWorker(Class annotatedClass, ISQLWorker worker){
         this.annotatedClass=annotatedClass;
         this.worker=worker;
     }
 
-    public void workWithAnnotation(){
+    private String getTableName(){
         annotation= (Entity) annotatedClass.getAnnotation(Entity.class);
-        System.out.println(annotation.tableName());
+        return tableName=annotation.tableName();
+    }
+
+    public void createTableByEntityAnnotation(){
+
     }
 }
