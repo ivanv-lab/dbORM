@@ -12,6 +12,10 @@ public class SQLWorker implements ISQLWorker {
     private static ResultSet resSet;
 
     //Подключение к СУБД
+    /// Сделать так, чтобы сначала было подключение к конкретной БД,
+    /// иначе подключение к СУБД без конкретной БД и использовался бы метод InitDB(),
+    /// т.к. сейчас получается так, что повторное использование метода Conn()
+    /// ведет к подключению к СУБД, а не к БД
     private static void Conn() throws ClassNotFoundException, SQLException
     {
         conn=null;
@@ -48,12 +52,19 @@ public class SQLWorker implements ISQLWorker {
         CloseDB();
     }
 
+    //Создание таблицы
+    public static void AddTable(String dbName,String tableName) throws SQLException, ClassNotFoundException {
+        Conn();
+
+
+    }
+
     //Добавление записи в таблицу
-    public static void WriteToDB(String table, List<String> values) throws SQLException, ClassNotFoundException {
+    public static void WriteToDB(String tableName, List<String> values) throws SQLException, ClassNotFoundException {
         Conn();
 
         statmt=conn.createStatement();
-        resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+table+"');");
+        resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+tableName+"');");
         List<String> titles=new ArrayList<>();
         int columnNumber=0;
         while(resSet.next()){
@@ -66,7 +77,7 @@ public class SQLWorker implements ISQLWorker {
             return;
         }
 
-        String sql="INSERT INTO "+table+" (";
+        String sql="INSERT INTO "+tableName+" (";
         for(String column:titles){
             if(column.equals("Id"))
                 continue;
@@ -94,11 +105,11 @@ public class SQLWorker implements ISQLWorker {
     }
 
     //Изменение записи в таблице по Id
-    public static void UpdateToDBById(String table,int id, List<String> newValues) throws SQLException, ClassNotFoundException {
+    public static void UpdateToDBById(String tableName,int id, List<String> newValues) throws SQLException, ClassNotFoundException {
         Conn();
 
         statmt=conn.createStatement();
-        resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+table+"');");
+        resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+tableName+"');");
         List<String> titles=new ArrayList<>();
         int columnNumber=0;
         while(resSet.next()){
@@ -111,7 +122,7 @@ public class SQLWorker implements ISQLWorker {
             return;
         }
 
-        String sql="UPDATE "+table+" SET ";
+        String sql="UPDATE "+tableName+" SET ";
         for(int i=0;i< newValues.size();i++){
             sql=sql.concat(titles.get(i+1)+"='"+newValues.get(i)+"',");
         }
@@ -130,12 +141,12 @@ public class SQLWorker implements ISQLWorker {
     }
 
     //Изменение записи в таблице по старым значениям
-    public static void UpdateToDBByOldValues(String table,List<String> oldValues,
+    public static void UpdateToDBByOldValues(String tableName,List<String> oldValues,
                                              List<String> newValues) throws SQLException, ClassNotFoundException {
         Conn();
 
         statmt=conn.createStatement();
-        resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+table+"');");
+        resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+tableName+"');");
         List<String> titles=new ArrayList<>();
         int columnNumber=0;
         while(resSet.next()){
@@ -148,7 +159,7 @@ public class SQLWorker implements ISQLWorker {
             return;
         }
 
-        String sql="UPDATE "+table+" SET ";
+        String sql="UPDATE "+tableName+" SET ";
         for(int i=0;i< newValues.size();i++){
             sql=sql.concat(titles.get(i+1)+"='"+newValues.get(i)+"',");
         }
@@ -172,11 +183,11 @@ public class SQLWorker implements ISQLWorker {
     }
 
     //Чтение всех данных из таблицы
-    public static List<Map<String, String>> ReadFromDb(String table) throws SQLException, ClassNotFoundException {
+    public static List<Map<String, String>> ReadFromDb(String tableName) throws SQLException, ClassNotFoundException {
         Conn();
 
         statmt=conn.createStatement();
-        resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+table+"');");
+        resSet=statmt.executeQuery("SELECT name FROM PRAGMA_TABLE_INFO('"+tableName+"');");
         List<String> titles=new ArrayList<>();
         while (resSet.next()){
             if(!resSet.getString("name").equals("Id")) {
@@ -189,7 +200,7 @@ public class SQLWorker implements ISQLWorker {
             sql=sql.concat(column+",");
         }
         sql=sql.substring(0,sql.length()-1);
-        sql=sql.concat(" FROM "+table);
+        sql=sql.concat(" FROM "+tableName);
 
         System.out.println(sql);
 

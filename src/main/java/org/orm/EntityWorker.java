@@ -15,6 +15,5 @@ public class EntityWorker{
 
     public void workWithAnnotation(){
         annotation= (Entity) annotatedClass.getAnnotation(Entity.class);
-
     }
 }
