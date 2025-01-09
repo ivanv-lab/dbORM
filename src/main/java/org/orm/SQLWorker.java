@@ -10,18 +10,23 @@ public class SQLWorker implements ISQLWorker {
     private static Connection conn;
     private static Statement statmt;
     private static ResultSet resSet;
+    private final String dbName;
+
+    public SQLWorker(String dbName) {
+        this.dbName = dbName;
+    }
+
 
     //Подключение к СУБД
     /// Сделать так, чтобы сначала было подключение к конкретной БД,
     /// иначе подключение к СУБД без конкретной БД и использовался бы метод InitDB(),
     /// т.к. сейчас получается так, что повторное использование метода Conn()
     /// ведет к подключению к СУБД, а не к БД
-    private static void Conn() throws ClassNotFoundException, SQLException
+    private void Conn() throws ClassNotFoundException, SQLException
     {
-        conn=null;
         Class.forName("org.postgresql.Driver");
         conn = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/",
+                "jdbc:postgresql://localhost:5432/"+dbName,
                 "postgres",
                 "postgres"
         );
@@ -29,8 +34,14 @@ public class SQLWorker implements ISQLWorker {
     }
 
     //Инициализация БД
-    public static void InitDB(String dbName) throws SQLException, ClassNotFoundException {
-        Conn();
+    public void InitDB() throws SQLException, ClassNotFoundException {
+        Class.forName("org.postgresql.Driver");
+        conn = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/",
+                "postgres",
+                "postgres"
+        );
+        System.out.println("Подключение установлено");
 
         String sql="SELECT datname FROM pg_catalog.pg_database";
         statmt=conn.createStatement();
@@ -53,14 +64,14 @@ public class SQLWorker implements ISQLWorker {
     }
 
     //Создание таблицы
-    public static void AddTable(String dbName,String tableName) throws SQLException, ClassNotFoundException {
+    public void AddTable(String dbName,String tableName) throws SQLException, ClassNotFoundException {
         Conn();
 
 
     }
 
     //Добавление записи в таблицу
-    public static void WriteToDB(String tableName, List<String> values) throws SQLException, ClassNotFoundException {
+    public void WriteToDB(String tableName, List<String> values) throws SQLException, ClassNotFoundException {
         Conn();
 
         statmt=conn.createStatement();
@@ -105,7 +116,7 @@ public class SQLWorker implements ISQLWorker {
     }
 
     //Изменение записи в таблице по Id
-    public static void UpdateToDBById(String tableName,int id, List<String> newValues) throws SQLException, ClassNotFoundException {
+    public void UpdateToDBById(String tableName,int id, List<String> newValues) throws SQLException, ClassNotFoundException {
         Conn();
 
         statmt=conn.createStatement();
@@ -141,7 +152,7 @@ public class SQLWorker implements ISQLWorker {
     }
 
     //Изменение записи в таблице по старым значениям
-    public static void UpdateToDBByOldValues(String tableName,List<String> oldValues,
+    public void UpdateToDBByOldValues(String tableName,List<String> oldValues,
                                              List<String> newValues) throws SQLException, ClassNotFoundException {
         Conn();
 
@@ -183,7 +194,7 @@ public class SQLWorker implements ISQLWorker {
     }
 
     //Чтение всех данных из таблицы
-    public static List<Map<String, String>> ReadFromDb(String tableName) throws SQLException, ClassNotFoundException {
+    public List<Map<String, String>> ReadFromDb(String tableName) throws SQLException, ClassNotFoundException {
         Conn();
 
         statmt=conn.createStatement();
