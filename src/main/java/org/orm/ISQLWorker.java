@@ -1,24 +1,21 @@
 package org.orm;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 public interface ISQLWorker {
 
-    private static void Conn() {}
+    public void InitDB() throws ClassNotFoundException, SQLException;
 
-    static void InitDB(){}
+    public void AddTable(String dbName,String tableName) throws SQLException, ClassNotFoundException;
 
-    static void Add(String table, List<String> values){}
+    public void WriteToDB(String tableName, List<String> values) throws SQLException, ClassNotFoundException;
 
-    static void Update(String table,int id, List<String> newValues){}
+    public void UpdateToDBById(String tableName,int id, List<String> newValues) throws SQLException, ClassNotFoundException;
 
-    static void Update(String table,List<String> oldValues,
-                              List<String> newValues){}
+    public void UpdateToDBByOldValues(String tableName,List<String> oldValues,
+                                      List<String> newValues) throws SQLException, ClassNotFoundException;
 
-    static List<Map<String, String>> Read(String table){
-        return List.of();
-    }
-
-    static void CloseDB(){}
+    public List<Map<String, String>> ReadFromDb(String tableName) throws SQLException, ClassNotFoundException;
 }

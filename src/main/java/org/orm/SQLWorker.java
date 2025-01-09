@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SQLWorker implements ISQLWorker {
+
     private static Connection conn;
     private static Statement statmt;
     private static ResultSet resSet;
@@ -15,7 +16,6 @@ public class SQLWorker implements ISQLWorker {
     public SQLWorker(String dbName) {
         this.dbName = dbName;
     }
-
 
     //Подключение к СУБД
     /// Сделать так, чтобы сначала было подключение к конкретной БД,
@@ -34,7 +34,7 @@ public class SQLWorker implements ISQLWorker {
     }
 
     //Инициализация БД
-    public void InitDB() throws SQLException, ClassNotFoundException {
+    public void InitDB() throws ClassNotFoundException, SQLException {
         Class.forName("org.postgresql.Driver");
         conn = DriverManager.getConnection(
                 "jdbc:postgresql://localhost:5432/",
@@ -233,7 +233,7 @@ public class SQLWorker implements ISQLWorker {
     }
 
     //Закрытие подключения к БД
-    private static void CloseDB() throws SQLException {
+    private void CloseDB() throws SQLException {
         resSet.close();
         statmt.close();
         conn.close();
