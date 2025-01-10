@@ -1,6 +1,6 @@
 package org.orm.classes;
 
-import org.orm.interfaces.IEntityWorker;
+import org.orm.interfaces.IAnnotationWorker;
 import org.orm.interfaces.ISQLWorker;
 
 import java.sql.SQLException;
@@ -8,9 +8,9 @@ import java.util.List;
 
 public class EntityORM {
     private ISQLWorker sqlWorker;
-    private IEntityWorker entityWorker;
+    private IAnnotationWorker entityWorker;
 
-    public EntityORM(ISQLWorker sqlWorker, IEntityWorker entityWorker){
+    public EntityORM(ISQLWorker sqlWorker, IAnnotationWorker entityWorker){
         this.sqlWorker=sqlWorker;
         this.entityWorker=entityWorker;
     }
