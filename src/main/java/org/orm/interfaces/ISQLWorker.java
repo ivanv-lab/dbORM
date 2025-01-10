@@ -24,5 +24,7 @@ public interface ISQLWorker {
 
     public void deleteFromDbById(String tableName,int id) throws SQLException, ClassNotFoundException;
 
+    public void addPK(String tableName, String fieldName) throws SQLException, ClassNotFoundException;
+
     public void CloseDB() throws SQLException;
 }

@@ -13,8 +13,6 @@ import java.util.*;
 public class AnnotationWorker implements IAnnotationWorker {
     Class annotatedClass;
     Entity entityAnnotation;
-    Id idAnnotation;
-    Query queryAnnotation;
     ISQLWorker worker;
     String tableName;
 
@@ -58,11 +56,12 @@ public class AnnotationWorker implements IAnnotationWorker {
             if(f.isAnnotationPresent(Id.class))
                 return f.getName();
         }
+
+        return null;
     }
 
-    public void addPKToTable(){
-
+    public void addPKToTable() throws SQLException, ClassNotFoundException {
+        String field=getIdFieldName();
+        worker.addPK(tableName,field);
     }
-
-
 }

@@ -255,6 +255,17 @@ public class SQLWorker implements ISQLWorker {
         CloseDB();
     }
 
+    //Добавление первичного ключа для таблицы
+    public void addPK(String tableName, String fieldName) throws SQLException, ClassNotFoundException {
+        ConnDB();
+
+        statmt=conn.createStatement();
+        statmt.executeUpdate("ALTER TABLE "+tableName+" " +
+                "ADD PRIMARY KEY "+fieldName+";");
+
+        CloseDB();
+    }
+
     //Закрытие подключения к БД
     public void CloseDB() throws SQLException {
         resSet.close();
