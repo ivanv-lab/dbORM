@@ -9,17 +9,19 @@ import java.util.Date;
 public class Book {
     @Id
     private Long id;
+    private Person person;
     private String name;
     private String author;
     private Date date;
 
     public Book() {}
 
-    public Book(Long id, String name, String author, Date date) {
+    public Book(Long id, String name, String author, Date date, Person person) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.date = date;
+        this.person=person;
     }
 
     public Long getId() {
@@ -52,5 +54,13 @@ public class Book {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }
