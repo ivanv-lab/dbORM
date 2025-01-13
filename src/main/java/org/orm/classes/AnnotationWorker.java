@@ -7,18 +7,26 @@ import org.orm.interfaces.IAnnotationWorker;
 import org.orm.interfaces.ISQLWorker;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.*;
 
 public class AnnotationWorker implements IAnnotationWorker {
     Class annotatedClass;
+    Method annotatedMethod;
     Entity entityAnnotation;
+    Query queryAnnotation;
+    String query;
     ISQLWorker worker;
     String tableName;
 
     public AnnotationWorker(Class annotatedClass, ISQLWorker worker){
         this.annotatedClass=annotatedClass;
         this.worker=worker;
+    }
+
+    public AnnotationWorker(Method annotatedMethod){
+        this.annotatedMethod=annotatedMethod;
     }
 
     private String getTableName(){
@@ -63,5 +71,16 @@ public class AnnotationWorker implements IAnnotationWorker {
     public void addPKToTable() throws SQLException, ClassNotFoundException {
         String field=getIdFieldName();
         worker.addPK(tableName,field);
+    }
+
+    private String getQuery(){
+        queryAnnotation=(Query) annotatedMethod.getAnnotation(Query.class);
+        return query=queryAnnotation.queryString();
+    }
+
+    public void executeQuery(){
+        getQuery();
+
+
     }
 }

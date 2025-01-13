@@ -26,5 +26,9 @@ public interface ISQLWorker {
 
     public void addPK(String tableName, String fieldName) throws SQLException, ClassNotFoundException;
 
+    public void executeQueryNonReturn(String queryString) throws SQLException, ClassNotFoundException;
+
+    public String executeQueryReturnString(String queryString) throws SQLException, ClassNotFoundException;
+
     public void CloseDB() throws SQLException;
 }

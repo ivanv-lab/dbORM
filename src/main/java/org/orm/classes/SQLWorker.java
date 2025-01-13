@@ -272,4 +272,32 @@ public class SQLWorker implements ISQLWorker {
         statmt.close();
         conn.close();
     }
+
+    //Выполнение нативного SQL-запроса без возврата значения
+    public void executeQueryNonReturn(String queryString) throws SQLException, ClassNotFoundException {
+        ConnDB();
+
+        statmt=conn.createStatement();
+        statmt.executeQuery(queryString);
+
+        CloseDB();
+    }
+
+    /**
+     * Метод не готов - подумать над тем, как универсально возвращать значения при нативном запросе
+     * Думаю может с помощью коллекции String или что то типа
+     * @param queryString
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public String executeQueryReturnString(String queryString) throws SQLException, ClassNotFoundException {
+        ConnDB();
+
+        statmt= conn.createStatement();
+        resSet=statmt.executeQuery(queryString);
+
+        CloseDB();
+        return null;
+    }
 }
