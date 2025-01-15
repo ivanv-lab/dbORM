@@ -39,6 +39,7 @@ public class AnnotationWorker implements IAnnotationWorker {
         getTableName();
         List<String> sqlFields=new ArrayList<>();
 
+        //Определение типов и наименований полей
         List<Field> fields= Arrays.stream(annotatedClass.getDeclaredFields()).toList();
         for(Field f:fields){
             String name=f.getName();
@@ -51,6 +52,10 @@ public class AnnotationWorker implements IAnnotationWorker {
             if(type.contains("boolean")) sqlFields.add(name+" BOOLEAN");
             if(type.contains("float")) sqlFields.add(name+" DECIMAL");
         }
+
+        //Определение связей с другими классами
+        List<Class> classes=Arrays.stream(annotatedClass.getClasses()).toList();
+
 
         worker.ConnDB();
         worker.AddTable(tableName,sqlFields);
@@ -78,6 +83,9 @@ public class AnnotationWorker implements IAnnotationWorker {
         return query=queryAnnotation.queryString();
     }
 
+    /**
+     * Доделать
+     */
     public void executeQuery(){
         getQuery();
 
