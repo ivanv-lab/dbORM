@@ -297,4 +297,13 @@ public class SQLWorker implements ISQLWorker {
         CloseDB();
         return null;
     }
+
+    public void addTableRelations(String tableOne,String fieldOne,
+                                  String tableTwo,String fieldTwo) throws SQLException, ClassNotFoundException {
+        ConnDB();
+
+
+
+        CloseDB();
+    }
 }

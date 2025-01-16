@@ -38,6 +38,7 @@ public class AnnotationWorker implements IAnnotationWorker {
     public void createTableByEntityAnnotation() throws SQLException, ClassNotFoundException {
         getTableName();
         List<String> sqlFields=new ArrayList<>();
+        List<Class> classes=Arrays.stream(annotatedClass.getClasses()).toList();
 
         //Определение типов и наименований полей
         List<Field> fields= Arrays.stream(annotatedClass.getDeclaredFields()).toList();
@@ -51,11 +52,8 @@ public class AnnotationWorker implements IAnnotationWorker {
             if(type.contains("Long")) sqlFields.add(name+" BIGINT");
             if(type.contains("boolean")) sqlFields.add(name+" BOOLEAN");
             if(type.contains("float")) sqlFields.add(name+" DECIMAL");
+
         }
-
-        //Определение связей с другими классами
-        List<Class> classes=Arrays.stream(annotatedClass.getClasses()).toList();
-
 
         worker.ConnDB();
         worker.AddTable(tableName,sqlFields);
