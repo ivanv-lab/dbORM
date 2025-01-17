@@ -302,7 +302,11 @@ public class SQLWorker implements ISQLWorker {
                                   String tableTwo,String fieldTwo) throws SQLException, ClassNotFoundException {
         ConnDB();
 
-
+        String sql="ALTER TABLE "+tableOne+" " +
+                "ADD CONSTRAINT "+tableTwo+" FOREIGN KEY ("+fieldOne+") " +
+                "REFERENCES "+tableTwo+" ("+fieldTwo+")";
+        statmt=conn.createStatement();
+        statmt.executeUpdate(sql);
 
         CloseDB();
     }
