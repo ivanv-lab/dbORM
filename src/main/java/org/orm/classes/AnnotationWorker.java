@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AnnotationWorker implements IAnnotationWorker {
     Class annotatedClass;
@@ -59,9 +60,23 @@ public class AnnotationWorker implements IAnnotationWorker {
     }
 
     public void createTablesRelations(){
-        List<Field> fields=Arrays.stream(annotatedClass.getDeclaredFields()).toList();
+        List<Class> annotatedClasses=Arrays.stream(annotatedClass.getClasses()).toList();
+        List<String> annotatedClassesNames=new ArrayList<>();
+        annotatedClasses.forEach(a->{
+            annotatedClassesNames.add(a.getName());
+        });
 
+        List<Field> fields=Arrays.stream(annotatedClasses.stream().toArray().getClass().getDeclaredFields()).toList();
 
+        for(Field f:fields){
+            String type=String.valueOf(f.getType());
+
+            for(String s:annotatedClassesNames){
+                if(type.contains(s)){
+                    worker.addTableRelations();
+                }
+            }
+        }
     }
 
     private String getIdFieldName(){

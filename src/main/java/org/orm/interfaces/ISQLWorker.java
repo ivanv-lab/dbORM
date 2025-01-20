@@ -30,5 +30,8 @@ public interface ISQLWorker {
 
     public String executeQueryReturnString(String queryString) throws SQLException, ClassNotFoundException;
 
+    public void addTableRelations(String tableOne,String fieldOne,
+                                  String tableTwo,String fieldTwo) throws SQLException, ClassNotFoundException;
+
     public void CloseDB() throws SQLException;
 }
